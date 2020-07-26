@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 2020/7/25 22:11
  */
 @Controller
-@RequestMapping("/i18n")
+@RequestMapping("i18n")
 public class I18nTestController {
 
     @RequestMapping("/first")
     public String index(){
-        return "/i18n/first";
+        return "i18n/first";
     }
 
     @RequestMapping("/admin")
     public String admin(){
-        return "/i18n/admin";
+        return "i18n/admin";
     }
 
     @RequestMapping("/before")
     public String before(){
-        return "/i18n/before";
+        return "i18n/before";
     }
 }
