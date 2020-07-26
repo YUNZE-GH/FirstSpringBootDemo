@@ -1,0 +1,2 @@
+# FirstSpringBootDemo
+利用Thymeleaf模板实现了页面信息国际化
