@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<table style="border: 1px solid black">
+    <tr th:each="file,fileStat:${filesList}">
+        <td>
+            <span th:text="${file.path}"></span>
+        </td>
+        <td>
+            <a th:href="@{download(filename=${file.name})}">
+                <span th:text="${file.name}"></span>
+            </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
