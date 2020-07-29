@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Error</title>
+</head>
+<body>
+<span>没有找到页面</span>
+<p th:text="${status}"></p>
+<div th:text="${#dates.format(timestamp, 'yyyy-MM-dd HH:mm:ss')}"></div>
+<div th:text="${message}"></div>
+<div th:text="${error}"></div>
+</body>
+</html>
