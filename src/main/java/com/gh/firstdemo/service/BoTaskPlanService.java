@@ -12,4 +12,8 @@ import java.util.List;
  */
 public interface BoTaskPlanService {
     List<BoTaskPlan> getAll();
+
+    BoTaskPlan getOne(String id);
+
+    BoTaskPlan getOne(BoTaskPlan bo);
 }

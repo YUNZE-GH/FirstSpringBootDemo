@@ -5,4 +5,12 @@
     <select id="getAll" resultType="BoTaskPlan">
       select * from bo_task_plan
     </select>
+
+    <select id="getOne" resultType="BoTaskPlan" parameterType="java.lang.String">
+        select * from springbootdemo.bo_task_plan where ID=#{id}
+    </select>
+
+    <select id="getOneByBean" resultType="BoTaskPlan" parameterType="BoTaskPlan">
+        select * from springbootdemo.bo_task_plan where ID = #{id} and ORDERINDEX = #{orderindex}
+    </select>
 </mapper>

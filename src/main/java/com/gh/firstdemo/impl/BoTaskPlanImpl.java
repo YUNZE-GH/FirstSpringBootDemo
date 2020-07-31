@@ -22,4 +22,14 @@ public class BoTaskPlanImpl implements BoTaskPlanService {
     public List<BoTaskPlan> getAll() {
         return dao.getAll();
     }
+
+    @Override
+    public BoTaskPlan getOne(String id) {
+        return dao.getOne(id);
+    }
+
+    @Override
+    public BoTaskPlan getOne(BoTaskPlan bo) {
+        return dao.getOneByBean(bo);
+    }
 }

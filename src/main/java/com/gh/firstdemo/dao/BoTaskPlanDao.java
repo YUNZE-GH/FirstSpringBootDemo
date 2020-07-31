@@ -14,4 +14,8 @@ import java.util.List;
 public interface BoTaskPlanDao {
 
     List<BoTaskPlan> getAll();
+
+    BoTaskPlan getOne(String id);
+
+    BoTaskPlan getOneByBean(BoTaskPlan bo);
 }
