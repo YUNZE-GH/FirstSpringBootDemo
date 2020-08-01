@@ -1,15 +1,28 @@
 package com.gh.firstdemo.controller;
 
+import com.gh.firstdemo.dao.StudentRepository;
 import com.gh.firstdemo.entity.BoTaskPlan;
+import com.gh.firstdemo.entity.Student;
 import com.gh.firstdemo.service.BoTaskPlanService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,17 +45,47 @@ public class TestController {
     public String test(){
         System.err.println("====>   " + num);
         List<BoTaskPlan> list = this.service.getAll();
-        System.err.println(list.toString());
-        log.trace("日志-->trace");
-        log.debug("日志-->debug");
-        log.info("日志-->info");
-        log.warn("日志-->warn");
-        log.error("日志-->error");
-        return "SUCCESS";
+        return list.toString();
     }
 
     @RequestMapping(value = "/index")
     public String index(){
         return "index";
+    }
+
+    @Test
+    public void demo1(){
+        Student stu1 = new Student("1", "张三");
+        Student stu2 = new Student("2", "李四");
+        List<Student> list = new ArrayList<>();
+        list.add(stu1);
+        list.add(stu2);
+        System.err.println("List:" + list.toString());
+
+        Gson gson = new Gson();
+        String str = gson.toJson(list);
+        System.err.println("List-->JSON:" + str);
+
+        List<Student> arrayList = new ArrayList<>();
+        arrayList = gson.fromJson(str, new TypeToken<List<Student>>() {}.getType());
+        System.err.println("JSON-->List:" + arrayList.get(0).toString());
+    }
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @RequestMapping(value = "/redis/save/{key}/{value}", method = RequestMethod.POST)
+    @ResponseBody
+    public String redis_save(@PathVariable String key, @PathVariable String value){
+        studentRepository.saveString(key, value);
+        return "SUCCESS!";
+    }
+
+    @RequestMapping(value = "/redis/query/{key}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public String redis_query(@PathVariable String key){
+        String str = studentRepository.getString(key);
+        log.error(str);
+        return str;
     }
 }
