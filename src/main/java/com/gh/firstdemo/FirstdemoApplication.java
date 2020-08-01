@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,6 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @SpringBootApplication
 @MapperScan("com.gh.firstdemo.dao")
+@EnableCaching  // 开启缓存
 public class FirstdemoApplication {
 
     public static void main(String[] args) {

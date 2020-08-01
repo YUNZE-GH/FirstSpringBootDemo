@@ -2,8 +2,10 @@ package com.gh.firstdemo.controller;
 
 import com.gh.firstdemo.dao.StudentRepository;
 import com.gh.firstdemo.entity.BoTaskPlan;
+import com.gh.firstdemo.entity.Emp;
 import com.gh.firstdemo.entity.Student;
 import com.gh.firstdemo.service.BoTaskPlanService;
+import com.gh.firstdemo.service.EmpService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.sf.json.JSONArray;
@@ -87,5 +89,32 @@ public class TestController {
         String str = studentRepository.getString(key);
         log.error(str);
         return str;
+    }
+
+    @Autowired
+    private EmpService empService;
+
+    @RequestMapping(value = "/cache/save/{key}/{value}", method = RequestMethod.POST)
+    @ResponseBody
+    public String cache_save(@PathVariable String key, @PathVariable String value){
+        Emp emp = new Emp();
+        emp.setId(key);
+        emp.setName(value);
+        empService.saveEmp(emp);
+        return "SUCCESS!";
+    }
+
+    @RequestMapping(value = "/cache/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public String cache_query(){
+        List<Emp> list = empService.getAll();
+        return list.toString();
+    }
+
+    @RequestMapping(value = "/cache/del", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String cache_del(){
+        empService.del();
+        return "SUCCESS!";
     }
 }
