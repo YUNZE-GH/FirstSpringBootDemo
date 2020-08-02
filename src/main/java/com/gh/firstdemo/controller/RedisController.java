@@ -31,7 +31,7 @@ public class RedisController {
     @ResponseBody
     public String redis_save(@PathVariable String key, @PathVariable String value){
         studentRepository.saveString(key, value);
-        return "SUCCESS!";
+        return "SUCCESS!!!";
     }
 
     @RequestMapping(value = "/redis/query/{key}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

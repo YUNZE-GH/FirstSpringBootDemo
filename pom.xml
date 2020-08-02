@@ -134,6 +134,30 @@
             <version>4.12</version>
         </dependency>
         <!-- 单元测试工具 [end]  -->
+
+        <!-- 集成JMS消息代理服务 [start]  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+        <!-- 集成JMS消息代理服务 [end]  -->
+
+        <!--<dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-pool</artifactId>
+            &lt;!&ndash; <version>5.7.0</version> &ndash;&gt;
+        </dependency>-->
+        <dependency>
+            <groupId>org.messaginghub</groupId>
+            <artifactId>pooled-jms</artifactId>
+        </dependency>
+
+        <!-- 热部署 [start]  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+        <!-- 热部署 [end]  -->
     </dependencies>
 
 
