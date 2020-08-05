@@ -3,12 +3,9 @@ package com.gh.firstdemo.controller;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,8 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * @author gaohan
@@ -51,7 +46,7 @@ public class FileTestController {
     }
 
     @RequestMapping("/downloadFile")
-    public String downloadFile(HttpServletRequest request, Model model){
+    public String downloadFile(Model model){
 //        String path = request.getServletContext().getRealPath("/uploadFiles/");
         String path = "C:\\uploadFiles";
         File fileDir = new File(path);
@@ -63,21 +58,15 @@ public class FileTestController {
 
     @RequestMapping("download")
     public ResponseEntity<byte[]> download(
-            HttpServletRequest request,
-            @RequestParam(value = "filename", required = true) String filename) throws UnsupportedEncodingException {
+            @RequestParam(value = "filename", required = true) String filename) throws IOException {
         String path = "C:\\uploadFiles";
         // 读取文件保存的根位置
         File file = new File(path + File.separator + filename);
         HttpHeaders header = new HttpHeaders();
         // 设置Content-disposition=attachment（下载头）
         header.setContentDispositionFormData("attachment", filename);
-
-        ResponseEntity<byte[]> re = null;
-        try {
-            re = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), header, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // 设置请求状态码和请求消息头
+        ResponseEntity<byte[]> re = new ResponseEntity<>(FileUtils.readFileToByteArray(file), header, HttpStatus.OK);
         return re;
     }
 }
