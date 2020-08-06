@@ -16,4 +16,10 @@ public interface BoTaskPlanService {
     BoTaskPlan getOne(String id);
 
     BoTaskPlan getOne(BoTaskPlan bo);
+
+    void updateById(BoTaskPlan bo);
+
+    void addInfo(List<BoTaskPlan> list);
+
+    void deleteById(String id);
 }

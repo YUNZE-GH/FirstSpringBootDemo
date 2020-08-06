@@ -30,7 +30,7 @@ public class TestController {
     @Autowired
     private BoTaskPlanService service;
 
-    @Value("${activemq.number}")    // activemq.number为application.properties中的key；
+    @Value("${test.number}")    // test.number为application.properties中的key；
     private Integer num;        // 通过@Value注解将配置文件中key对应的value赋值给变量num；
 
     @Test

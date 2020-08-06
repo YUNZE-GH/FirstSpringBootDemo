@@ -13,4 +13,20 @@
     <select id="getOneByBean" resultType="BoTaskPlan" parameterType="BoTaskPlan">
         select * from springbootdemo.bo_task_plan where ID = #{id} and ORDERINDEX = #{orderindex}
     </select>
+    
+    <update id="updateById" parameterType="com.gh.firstdemo.entity.BoTaskPlan">
+        update springbootdemo.bo_task_plan set CREATEUSER = #{createuser} where ID = #{id}
+    </update>
+
+    <insert id="addInfo">
+        insert into springbootdemo.bo_task_plan(ID, CREATETIME, CREATEUSER, UPDATETIME, UPDATEUSER)
+        values 
+        <foreach collection="list" item="bo" separator=",">
+            (#{bo.id}, #{bo.createtime}, #{bo.createuser}, #{bo.updatetime}, #{bo.updateuser})
+        </foreach>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete from springbootdemo.bo_task_plan where ID = #{id}
+    </delete>
 </mapper>

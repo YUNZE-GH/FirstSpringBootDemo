@@ -3,6 +3,7 @@ package com.gh.firstdemo.impl;
 import com.gh.firstdemo.dao.BoTaskPlanDao;
 import com.gh.firstdemo.entity.BoTaskPlan;
 import com.gh.firstdemo.service.BoTaskPlanService;
+import com.gh.firstdemo.utils.PublicUtils;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -12,8 +13,11 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author gaohan
@@ -51,5 +55,26 @@ public class BoTaskPlanImpl implements BoTaskPlanService {
     @Override
     public BoTaskPlan getOne(BoTaskPlan bo) {
         return dao.getOneByBean(bo);
+    }
+
+    @Override
+    public void updateById(BoTaskPlan bo) {
+        dao.updateById(bo);
+    }
+
+    @Override
+    public void addInfo(List<BoTaskPlan> list) {
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        for (BoTaskPlan bo : list) {
+            bo.setId(UUID.randomUUID().toString());
+            bo.setCreatetime(PublicUtils.StringToTimestamp(time));
+            bo.setUpdatetime(PublicUtils.StringToTimestamp(time));
+        }
+        dao.addInfo(list);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        dao.deleteById(id);
     }
 }

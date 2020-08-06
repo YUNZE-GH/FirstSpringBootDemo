@@ -7,11 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,22 +16,29 @@ import java.util.List;
  * @version 1.0
  * @date 2020/8/2 0:02
  */
-@Controller
+@RestController
+@RequestMapping(value = "/redis", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RedisController {
     private Log log = LogFactory.getLog(this.getClass().getName());
 
     @Autowired
     private StudentRepository studentRepository;
 
-    @RequestMapping(value = "/redis/save/{key}/{value}", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping(value = "/save/{key}/{value}")
     public String redis_save(@PathVariable String key, @PathVariable String value){
         studentRepository.saveString(key, value);
         return "SUCCESS!!!";
     }
 
-    @RequestMapping(value = "/redis/query/{key}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
+    @PostMapping(value = "/save")
+    public String save(@RequestBody(required = true) Emp emp){
+        System.err.println("===============SAVE==================");
+        System.err.println(emp.toString());
+        empService.saveEmp(emp);
+        return "Object Save to DB!!!";
+    }
+
+    @GetMapping(value = "/query/{key}")
     public String redis_query(@PathVariable String key){
         String str = studentRepository.getString(key);
         log.error(str);
@@ -46,7 +49,6 @@ public class RedisController {
     private EmpService empService;
 
     @RequestMapping(value = "/cache/save/{key}/{value}", method = RequestMethod.POST)
-    @ResponseBody
     public String cache_save(@PathVariable String key, @PathVariable String value){
         Emp emp = new Emp();
         emp.setId(key);
@@ -56,14 +58,12 @@ public class RedisController {
     }
 
     @RequestMapping(value = "/cache/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
     public String cache_query(){
         List<Emp> list = empService.getAll();
         return list.toString();
     }
 
     @RequestMapping(value = "/cache/del", method = RequestMethod.DELETE)
-    @ResponseBody
     public String cache_del(){
         empService.del();
         return "SUCCESS!";
