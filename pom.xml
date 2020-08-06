@@ -140,17 +140,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
         </dependency>
-        <!-- 集成JMS消息代理服务 [end]  -->
-
-        <!--<dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-pool</artifactId>
-            &lt;!&ndash; <version>5.7.0</version> &ndash;&gt;
-        </dependency>-->
         <dependency>
             <groupId>org.messaginghub</groupId>
             <artifactId>pooled-jms</artifactId>
         </dependency>
+        <!-- 集成JMS消息代理服务 [end]  -->
 
         <!-- 热部署 [start]  -->
         <dependency>
@@ -158,6 +152,13 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
         <!-- 热部署 [end]  -->
+
+        <!-- Actuator [start]  -->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
+        </dependency>-->
+        <!-- Actuator [end]  -->
     </dependencies>
 
 

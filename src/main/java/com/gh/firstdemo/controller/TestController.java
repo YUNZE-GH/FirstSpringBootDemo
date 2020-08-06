@@ -1,29 +1,20 @@
 package com.gh.firstdemo.controller;
 
-import com.gh.firstdemo.dao.StudentRepository;
 import com.gh.firstdemo.entity.BoTaskPlan;
-import com.gh.firstdemo.entity.Emp;
 import com.gh.firstdemo.entity.Student;
 import com.gh.firstdemo.service.BoTaskPlanService;
-import com.gh.firstdemo.service.EmpService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,21 +30,8 @@ public class TestController {
     @Autowired
     private BoTaskPlanService service;
 
-    @Value("${test.number}")    // test.number为application.properties中的key；
+    @Value("${activemq.number}")    // activemq.number为application.properties中的key；
     private Integer num;        // 通过@Value注解将配置文件中key对应的value赋值给变量num；
-
-    @RequestMapping(value = "/test")
-    @ResponseBody
-    public String test(){
-        System.err.println("====>   " + num);
-        List<BoTaskPlan> list = this.service.getAll();
-        return list.toString();
-    }
-
-    @RequestMapping(value = "/index")
-    public String index(){
-        return "index";
-    }
 
     @Test
     public void demo1(){
@@ -73,48 +51,27 @@ public class TestController {
         System.err.println("JSON-->List:" + arrayList.get(0).toString());
     }
 
-    @Autowired
-    private StudentRepository studentRepository;
-
-    @RequestMapping(value = "/redis/save/{key}/{value}", method = RequestMethod.POST)
+    @RequestMapping(value = "/test")
     @ResponseBody
-    public String redis_save(@PathVariable String key, @PathVariable String value){
-        studentRepository.saveString(key, value);
-        return "SUCCESS!";
-    }
-
-    @RequestMapping(value = "/redis/query/{key}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public String redis_query(@PathVariable String key){
-        String str = studentRepository.getString(key);
-        log.error(str);
-        return str;
-    }
-
-    @Autowired
-    private EmpService empService;
-
-    @RequestMapping(value = "/cache/save/{key}/{value}", method = RequestMethod.POST)
-    @ResponseBody
-    public String cache_save(@PathVariable String key, @PathVariable String value){
-        Emp emp = new Emp();
-        emp.setId(key);
-        emp.setName(value);
-        empService.saveEmp(emp);
-        return "SUCCESS!";
-    }
-
-    @RequestMapping(value = "/cache/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public String cache_query(){
-        List<Emp> list = empService.getAll();
+    public String test(){
+        System.err.println("====>   " + num);
+        List<BoTaskPlan> list = this.service.getAll();
         return list.toString();
     }
 
-    @RequestMapping(value = "/cache/del", method = RequestMethod.DELETE)
-    @ResponseBody
-    public String cache_del(){
-        empService.del();
-        return "SUCCESS!";
+    @RequestMapping(value = "/index")
+    public String index(){
+        return "index";
     }
+
+    @RequestMapping(value = "/hello")
+    @ResponseBody
+    public String hello(HttpServletResponse response){
+        //允许所有域名访问
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Cache-Control", "no-cache");
+        return "Hello World!";
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.gh.firstdemo.test;
+package com.gh.firstdemo.activemq;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -15,7 +15,7 @@ public class Consumer2 {
     @JmsListener(destination = "mytest.queue")
     @SendTo("out.queue")    // 该注解的意思是将return回的值，再发送的"out.queue"队列中
     public String receiveQueue(String text) {
-        System.out.println("Consumer-2收到的报文为:"+text);
-        return "return message"+text;
+        System.out.println("Consumer-2收到的报文为:" + text);
+        return "return message" + text;
     }
 }
